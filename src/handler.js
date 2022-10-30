@@ -109,7 +109,7 @@ const getAllBooksHandler = (request, h) => {
   // if yes check again, if reading variable is 1 (true)
   // it will show data with reading status is true (book is being read).
   if (reading !== undefined) {
-    if (reading === 1) {
+    if (reading === '1') {
       return {
         status: 'success',
         data: {
@@ -125,7 +125,7 @@ const getAllBooksHandler = (request, h) => {
 
     // if reading variable is 0 (false)
     // it will show data with reading status is false (book is not being read)
-    if (reading === 0) {
+    if (reading === '0') {
       return {
         status: 'success',
         data: {
@@ -144,7 +144,7 @@ const getAllBooksHandler = (request, h) => {
   // if yes check again, if finished variable is 1 (true)
   // it will show data with finsihed status is true (book is not finished read).
   if (finished !== undefined) {
-    if (finished === 1) {
+    if (finished === '1') {
       return {
         status: 'success',
         data: {
@@ -160,7 +160,7 @@ const getAllBooksHandler = (request, h) => {
 
     // if finished variable is 0 (false)
     // it will show data with finished status is false (book is finished read)
-    if (finished === 0) {
+    if (finished === '0') {
       return {
         status: 'success',
         data: {
