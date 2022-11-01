@@ -88,108 +88,22 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
-// /* handler function to get all of book data, without optional task */
-// const getAllBooksHandler = () => ({
-//   status: 'success',
-//   data: {
-//     // using reusable function (map) to get certain data
-//     books: books.map((book) => ({
-//       id: book.id,
-//       name: book.name,
-//       publisher: book.publisher,
-//     })),
-//   },
-// });
-
 /* handler function to get all of book data, with optional task */
 const getAllBooksHandler = (request, h) => {
   const { reading, finished, name } = request.query;
 
-  // check of reading variable is not undefinded.
-  // if yes check again, if reading variable is 1 (true)
-  // it will show data with reading status is true (book is being read).
-  if (reading !== undefined) {
-    if (reading === '1') {
-      return {
-        status: 'success',
-        data: {
-          books: books.filter((bookFilter) => bookFilter.reading === true)
-            .map((bookMap) => ({
-              id: bookMap.id,
-              name: bookMap.name,
-              publisher: bookMap.publisher,
-            })),
-        },
-      };
-    }
+  let datas = books;
 
-    // if reading variable is 0 (false)
-    // it will show data with reading status is false (book is not being read)
-    if (reading === '0') {
-      return {
-        status: 'success',
-        data: {
-          books: books.filter((bookFilter) => bookFilter.reading === false)
-            .map((bookMap) => ({
-              id: bookMap.id,
-              name: bookMap.name,
-              publisher: bookMap.publisher,
-            })),
-        },
-      };
-    }
+  if (name) {
+    datas = datas.filter((x) => x.name.tolLowerCase().includes(name.tolLowerCase()));
   }
 
-  // check of finished variable is not undefinded.
-  // if yes check again, if finished variable is 1 (true)
-  // it will show data with finsihed status is true (book is not finished read).
-  if (finished !== undefined) {
-    if (finished === '1') {
-      return {
-        status: 'success',
-        data: {
-          books: books.filter((bookFilter) => bookFilter.finished === true)
-            .map((bookMap) => ({
-              id: bookMap.id,
-              name: bookMap.name,
-              publisher: bookMap.publisher,
-            })),
-        },
-      };
-    }
-
-    // if finished variable is 0 (false)
-    // it will show data with finished status is false (book is finished read)
-    if (finished === '0') {
-      return {
-        status: 'success',
-        data: {
-          books: books.filter((bookFilter) => bookFilter.finished === false)
-            .map((bookMap) => ({
-              id: bookMap.id,
-              name: bookMap.name,
-              publisher: bookMap.publisher,
-            })),
-        },
-      };
-    }
+  if (reading) {
+    datas = datas.filter((x) => x.reading === Boolean(Number(reading)));
   }
 
-  // check of name variable is not undefinded.
-  // if yes, it will be filter name of book refer value get from query (name query).
-  if (name !== undefined) {
-    return {
-      status: 'success',
-      data: {
-        // toLowerCase is returns the value of the string converted to lower case
-        books: books.filter((bookF) => bookF.name.toLowerCase().includes(name.toLowerCase()))
-          .map((bookMap) => ({
-            id: bookMap.id,
-            name: bookMap.name,
-            publisher: bookMap.publisher,
-          })),
-      },
-    };
+  if (finished) {
+    datas = datas.filter((x) => x.finished === Boolean(Number(reading)));
   }
 
   // show all of book data
@@ -197,7 +111,7 @@ const getAllBooksHandler = (request, h) => {
     status: 'success',
     data: {
       // using reusable function (map) to get certain data
-      books: books.map((book) => ({
+      books: datas.map((book) => ({
         id: book.id,
         name: book.name,
         publisher: book.publisher,
