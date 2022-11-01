@@ -90,12 +90,12 @@ const addBookHandler = (request, h) => {
 
 /* handler function to get all of book data, with optional task */
 const getAllBooksHandler = (request, h) => {
-  const { reading, finished, name } = request.query;
+  const { reading, finished, name: qName } = request.query;
 
   let datas = books;
 
-  if (name) {
-    datas = datas.filter((x) => x.name.tolLowerCase().includes(name.tolLowerCase()));
+  if (qName) {
+    datas = datas.filter((x) => x.name.tolLowerCase().includes(qName.tolLowerCase()));
   }
 
   if (reading) {
